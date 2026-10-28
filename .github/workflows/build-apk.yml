@@ -1,7 +1,7 @@
 name: Build InvenTree APK
 
 on:
-  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,17 +22,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # Шаг для поиска и перехода в папку с проектом (если папка другая — укажем её)
       - name: Install dependencies
         run: flutter pub get
-        # Если проект лежит в корне, но структура подпапок отличается, 
-        # можно указать рабочий каталог. По умолчанию проверяем корень.
+        working-directory: ./apps/inventree-app # Указываем путь к папке с мобильным клиентом
 
       - name: Build APK
         run: flutter build apk --release
+        working-directory: ./apps/inventree-app # Тоже указываем рабочую директорию
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: inventree-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: apps/inventree-app/build/app/outputs/flutter-apk/app-release.apk
