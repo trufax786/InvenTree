@@ -22,8 +22,11 @@ jobs:
           channel: 'stable'
           cache: true
 
+      # Шаг для поиска и перехода в папку с проектом (если папка другая — укажем её)
       - name: Install dependencies
         run: flutter pub get
+        # Если проект лежит в корне, но структура подпапок отличается, 
+        # можно указать рабочий каталог. По умолчанию проверяем корень.
 
       - name: Build APK
         run: flutter build apk --release
